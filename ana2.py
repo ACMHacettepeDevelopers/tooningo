@@ -146,7 +146,7 @@ def overlayBaloonText(image_pillow, baloonText:BaloonText):
     print()
 
 
-image, gray_image = readImage("toontest2.jpg")
+image, gray_image = readImage("Test/toontest.jpg")
 textData = extractData(gray_image)
 
 baloonTexts = getNecesseryBaloons(textData); 
@@ -174,4 +174,4 @@ for i in baloonTexts:
 image = np.array(image_pillow)
 
 
-cv2.imwrite('testfile2_ocr.png', image)
+cv2.imwrite('Test/last.png', image)
