@@ -54,7 +54,7 @@ for word in text_lines:
     test_line = current_line + " " + word if current_line else word
     width, _ = cv2.getTextSize(test_line, font, font_scale, line_type)[0]
 
-    if width <= w:
+    if width + 50 <= w:
         current_line = test_line
     else:
         wrapped_text.append(current_line)
