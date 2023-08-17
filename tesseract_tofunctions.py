@@ -40,24 +40,15 @@ def drawRectangles(image, text_data):
 
 def concatText(text_data):
     """Concatenate neighboring non-blank texts"""
-    while True:
-        concatted = False
-        for i in range(len(text_data['text']) - 1):
-            if text_data['text'][i].strip():
-                blanks = 0
-                nextLine = ""
-                for j in range(i + 1, len(text_data['text'])):
-                    if text_data['text'][j].strip():
-                        nextLine = text_data['text'][j]
-                        break
-                    else:
-                        blanks += 1
-                if blanks <= 10:
-                    text_data['text'][i] += " " + nextLine
-                    text_data['text'][j] = ""
-                    concatted = True
-        if not concatted:
-            break
+    # If block_num's are same, concatenate text
+
+    for i in range(len(text_data['text'])):
+        if text_data['text'][i].strip():
+            for j in range(i+1, len(text_data['text'])):
+                if text_data['text'][j].strip():
+                    if text_data['block_num'][i] == text_data['block_num'][j]:
+                        text_data['text'][i] += " " + text_data['text'][j]
+                        text_data['text'][j] = ""
 
     
 def removeBlanks(gray_image, image):
@@ -117,6 +108,8 @@ def saveImage(image, path):
 def main():
     # Read image
     image, gray_image = readImage('Test/testfile2.png')
+
+    print(pytesseract.image_to_data(gray_image))
 
     # Extract data
     text_data = extractData(gray_image)
