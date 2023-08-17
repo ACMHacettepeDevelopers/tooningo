@@ -107,9 +107,7 @@ def saveImage(image, path):
 
 def main():
     # Read image
-    image, gray_image = readImage('Test/testfile2.png')
-
-    print(pytesseract.image_to_data(gray_image))
+    image, gray_image = readImage('Test/toontest.png')
 
     # Extract data
     text_data = extractData(gray_image)
@@ -127,7 +125,7 @@ def main():
     overlayText(image, text_data)
 
     # Save image
-    saveImage(image, 'Test/testfile2_tesseract.png')
+    saveImage(image, 'Test/toontest_tesseract.png')
 
 
 if __name__ == '__main__':
