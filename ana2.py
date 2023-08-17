@@ -146,7 +146,7 @@ def overlayBaloonText(image_pillow, baloonText:BaloonText):
     print()
 
 
-image, gray_image = readImage("Test/toontest.jpg")
+image, gray_image = readImage("Test/toontest.png")
 textData = extractData(gray_image)
 
 baloonTexts = getNecesseryBaloons(textData); 
