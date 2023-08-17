@@ -5,7 +5,7 @@ from unidecode import unidecode
 import numpy as np
 
 # Read the image
-image = cv2.imread('toontest.png')
+image = cv2.imread('Test/toontest.png')
 gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 # Apply edge detection
@@ -69,5 +69,5 @@ for line in wrapped_text:
     y_offset += height + 10
 
 # Save the output image
-output_path = "translated_toon.png"
+output_path = "Test/translated_toon.png"
 cv2.imwrite(output_path, output_image)
