@@ -135,7 +135,7 @@ def overlayBaloonText(image_pillow, baloonText:BaloonText):
 
     font_size= 30
     font_color = (0, 0, 0) 
-    font_pillow = ImageFont.truetype("/usr/share/fonts/truetype/freefont/FreeMono.ttf", font_size)
+    font_pillow = ImageFont.truetype("Tahoma", font_size)
 
     draw = ImageDraw.Draw(image_pillow)
 
