@@ -2,11 +2,11 @@ import cv2
 import pytesseract
 from googletrans import Translator
 from unidecode import unidecode
-import numpy as np
 from TextModel import TextModel
 from BaloonText import BaloonText
 import re
 from PIL import Image, ImageDraw, ImageFont
+import sys
 
 # Initialize the translator
 translator = Translator()
@@ -146,32 +146,37 @@ def overlayBaloonText(image_pillow, baloonText:BaloonText):
     print()
 
 
-image, gray_image = readImage("Test/toontest.png")
-textData = extractData(gray_image)
+def main(inputPath, outputPath):
+    image, gray_image = readImage(inputPath)
+    textData = extractData(gray_image)
 
-baloonTexts = getNecesseryBaloons(textData); 
+    baloonTexts = getNecesseryBaloons(textData);
 
-for i in baloonTexts:
-    removeBlanks(image, baloonTexts)
-    #drawBorderRectangle(image,baloonTexts[i].border_box)
+    for i in baloonTexts:
+        removeBlanks(image, baloonTexts)
+        #drawBorderRectangle(image,baloonTexts[i].border_box)
 
-image_pillow = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+    image_pillow = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
-for i in baloonTexts:
-    baloonText :BaloonText = baloonTexts[i]
+    for i in baloonTexts:
+        baloonText :BaloonText = baloonTexts[i]
 
-    baloonText.translatedText =  translate_text(baloonText.text, "tr").capitalize()
+        baloonText.translatedText =  translate_text(baloonText.text, "tr").capitalize()
 
-    #drawBorderRectangle(image, baloonText.border_box)
+        #drawBorderRectangle(image, baloonText.border_box)
 
-    overlayBaloonText(image_pillow,baloonText)
-    
-    """print(baloonText.text)
-    print(baloonText.translatedText)
-    print()
-    """
+        overlayBaloonText(image_pillow,baloonText)
+        
+        """print(baloonText.text)
+        print(baloonText.translatedText)
+        print()
+        """
 
-image = np.array(image_pillow)
+    image_pillow.save(outputPath)
 
 
-cv2.imwrite('Test/last.png', image)
+if __name__ == "__main__":
+    inputPath = sys.argv[1]
+    outputPath = sys.argv[2]
+
+    main(inputPath, outputPath)
