@@ -1,6 +1,7 @@
 import os
 import requests
 from bs4 import BeautifulSoup
+import sys
 
 def get_chapter_images(chapter_url, output_folder):
     headers = {
@@ -33,11 +34,10 @@ def get_chapter_images(chapter_url, output_folder):
         image_path_without_query = image_path.split("?")[0]
         os.rename(image_path, image_path_without_query)
 
-def main():
-    chapter_url = "https://www.webtoons.com/en/heartwarming/tata-the-cat/episode-1/viewer?title_no=5547&episode_no=1"
-    output_folder = "images/"
-
+def main(chapter_url, output_folder):
     get_chapter_images(chapter_url, output_folder)
 
 if __name__ == "__main__":
-    main()
+    chapter_url = sys.argv[1]
+    output_folder = sys.argv[2]
+    main(chapter_url=chapter_url, output_folder=output_folder)
