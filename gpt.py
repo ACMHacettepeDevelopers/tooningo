@@ -1,23 +1,22 @@
-from PIL import Image, ImageDraw, ImageFont
+import openai
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-# Boş bir beyaz arka plan oluştur
-width, height = 600, 300
-image = Image.new("RGB", (width, height), "white")
-draw = ImageDraw.Draw(image)
+# Set up OpenAI API credentials
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
-# Türkçe karakterleri içeren bir metin oluştur
-text = "Merhaba Dünya! Türkçe Karakterler: ŞÇĞÜİÖ"
+# Set up the translate function using gpt-3.5
+def translate(text, source = "eng", target = "tur"):
+    prompt = f'Translate from {source} to {target}: {text}'
+    response = openai.ChatCompletion.create(
+        model='gpt-3.5-turbo',
+        messages = [
+            {
+                'role' : 'user',
+                'content' : prompt,
+            }
+        ]
+    )
+    return response.choices[0].message.content
 
-# Kullanılacak yazı tipi ve boyutunu seç
-font_size = 20
-font = ImageFont.truetype("Comic Sans MS", font_size)
-
-# Metni görüntüye çiz
-text_width, text_height = draw.textsize(text, font)
-x = (width - text_width) // 2
-y = (height - text_height) // 2
-
-draw.text((x, y), text, fill="black", font=font)
-
-# Görüntüyü göster
-image.show()

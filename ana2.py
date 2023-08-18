@@ -7,6 +7,7 @@ from BaloonText import BaloonText
 import re
 from PIL import Image, ImageDraw, ImageFont
 import sys
+import gpt
 
 # Initialize the translator
 translator = Translator()
@@ -19,13 +20,25 @@ def translate_text(text, dest:str):
         return ""
     translated_text = translator.translate(text, src='auto', dest = dest).text
     #translated_text = unidecode(translated_text)
+
     return translated_text
+
+
+def translate_GPT(text, dest:str):
+    """Translate text from any language to Turkish using GPT-3.5"""
+    text = text.replace('\n', ' ')
+    if not text.strip():
+        return ""
+    translated_text = gpt.translate(text, dest)
+    return translated_text
+
 
 def isEmpty(text:str) -> bool:
     if text == "":
         return True
     pattern = r'^[\s\n\t]*$'
     return re.match(pattern,text)
+
 
 def getBaloonTexts(dictionary:dict) -> dict:
     baloonTexts = dict()
@@ -53,6 +66,7 @@ def getBaloonTexts(dictionary:dict) -> dict:
 
     return baloonTexts
 
+
 def getNecesseryBaloons(datas:dict):
     baloonTexts:dict = getBaloonTexts(datas)
     willDeleted = []
@@ -66,10 +80,12 @@ def getNecesseryBaloons(datas:dict):
         baloonTexts.pop(num)
     return baloonTexts
 
+
 def extractData(gray_image):
     """Extract text data using OCR"""
     text_data = (pytesseract.image_to_data(gray_image, output_type=pytesseract.Output.DICT))
     return text_data
+
 
 # Read the image
 def readImage(path):
@@ -77,6 +93,7 @@ def readImage(path):
     image = cv2.imread(path)
     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     return image, gray_image
+
 
 def removeBlanks(image, baloonTexts:dict):
     """Remove blank regions from the image"""
@@ -88,6 +105,7 @@ def drawBorderRectangle(image, border_box:TextModel):
     x, y, w, h = border_box.left, border_box.top, border_box.width, border_box.height
     cv2.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), thickness=2)
 
+
 def drawFilledRectangle(image, border_box:TextModel):
     x, y, w, h = border_box.left, border_box.top, border_box.width, border_box.height
     extra = 1
@@ -95,13 +113,12 @@ def drawFilledRectangle(image, border_box:TextModel):
     #cv2.addWeighted(image, 0.5,image,0.5,0)
 
 
-
 def overlayBaloonText(image_pillow, baloonText:BaloonText):
     """Overlay translated text on the image"""
 
     font_size= 30
     font_color = (0, 0, 0) 
-    font_pillow = ImageFont.truetype("Tahoma", font_size)
+    font_pillow = ImageFont.truetype("/usr/share/fonts/truetype/msttcorefonts/tahoma", font_size)
 
     draw = ImageDraw.Draw(image_pillow)
 
@@ -146,7 +163,7 @@ def overlayBaloonText(image_pillow, baloonText:BaloonText):
     print()
 
 
-def main(inputPath, outputPath):
+def main(inputPath, outputPath, GPT):
     image, gray_image = readImage(inputPath)
     textData = extractData(gray_image)
 
@@ -161,7 +178,10 @@ def main(inputPath, outputPath):
     for i in baloonTexts:
         baloonText :BaloonText = baloonTexts[i]
 
-        baloonText.translatedText =  translate_text(baloonText.text, "tr").capitalize()
+        if GPT:
+            baloonText.translatedText = translate_GPT(baloonText.text, "tr").capitalize()
+        else:
+            baloonText.translatedText =  translate_text(baloonText.text, "tr").capitalize()
 
         #drawBorderRectangle(image, baloonText.border_box)
 
@@ -178,5 +198,6 @@ def main(inputPath, outputPath):
 if __name__ == "__main__":
     inputPath = sys.argv[1]
     outputPath = sys.argv[2]
+    GPT = sys.argv[3]
 
-    main(inputPath, outputPath)
+    main(inputPath, outputPath, GPT)
