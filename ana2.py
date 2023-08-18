@@ -8,6 +8,8 @@ import re
 from PIL import Image, ImageDraw, ImageFont
 import sys
 import gpt
+import numpy as np
+from collections import Counter
 
 # Initialize the translator
 translator = Translator()
@@ -110,9 +112,22 @@ def drawBorderRectangle(image, border_box:TextModel):
 
 def drawFilledRectangle(image, border_box:TextModel):
     x, y, w, h = border_box.left, border_box.top, border_box.width, border_box.height
-    extra = 1
-    cv2.rectangle(image, (x-extra, y-extra), (x + w + extra, y + h +extra), (255, 255, 255), thickness=cv2.FILLED)
-    #cv2.addWeighted(image, 0.5,image,0.5,0)
+    # Extract the region covered by the bubble
+    bubble_region = image[y:y+h, x:x+w]
+    
+    # Convert the bubble region to grayscale for easier color analysis
+    bubble_gray = cv2.cvtColor(bubble_region, cv2.COLOR_BGR2GRAY)
+    
+    # Calculate the most common color value in the bubble region
+    pixel_values = bubble_gray.reshape(-1)
+    color_counter = Counter(pixel_values)
+    most_common_color_value = color_counter.most_common(1)[0][0]
+    
+    # Convert the color value back to BGR format
+    bubble_background_color = np.array([most_common_color_value, most_common_color_value, most_common_color_value], dtype=np.uint8)
+
+    # Fill the bubble region with the most common color
+    image[y:y+h, x:x+w] = bubble_background_color
 
 
 def overlayBaloonText(image_pillow, baloonText:BaloonText):
