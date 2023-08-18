@@ -92,6 +92,8 @@ def readImage(path):
     """Read image and convert it to grayscale"""
     image = cv2.imread(path)
     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    invert = cv2.threshold(gray_image, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
+    gray_image = 255 - invert
     return image, gray_image
 
 
@@ -118,7 +120,7 @@ def overlayBaloonText(image_pillow, baloonText:BaloonText):
 
     font_size= 30
     font_color = (0, 0, 0) 
-    font_pillow = ImageFont.truetype("/usr/share/fonts/truetype/msttcorefonts/tahoma", font_size)
+    font_pillow = ImageFont.truetype("Tahoma", font_size)
 
     draw = ImageDraw.Draw(image_pillow)
 
@@ -163,7 +165,7 @@ def overlayBaloonText(image_pillow, baloonText:BaloonText):
     print()
 
 
-def main(inputPath, outputPath, GPT):
+def main(inputPath, outputPath, ifGPT):
     image, gray_image = readImage(inputPath)
     textData = extractData(gray_image)
 
@@ -178,7 +180,7 @@ def main(inputPath, outputPath, GPT):
     for i in baloonTexts:
         baloonText :BaloonText = baloonTexts[i]
 
-        if GPT:
+        if ifGPT:
             baloonText.translatedText = translate_GPT(baloonText.text, "tr").capitalize()
         else:
             baloonText.translatedText =  translate_text(baloonText.text, "tr").capitalize()
@@ -198,6 +200,6 @@ def main(inputPath, outputPath, GPT):
 if __name__ == "__main__":
     inputPath = sys.argv[1]
     outputPath = sys.argv[2]
-    GPT = sys.argv[3]
+    is_GPT = bool(int(sys.argv[3]))
 
-    main(inputPath, outputPath, GPT)
+    main(inputPath, outputPath, is_GPT)
