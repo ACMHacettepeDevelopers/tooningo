@@ -26,8 +26,8 @@ def bubbleFinder(image):
         for box in r.boxes:
             # Get xyxy coordinates
             coordts = box.xyxy
-            # Get the coordinates of the bubble
-            bubble_coordinates.append(coordts)
+            coordinates = coordts[0].tolist()
+            bubble_coordinates.append(coordinates)
 
     return bubble_coordinates
 
