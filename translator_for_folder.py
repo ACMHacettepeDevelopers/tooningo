@@ -1,4 +1,3 @@
-import ana2
 import webtooncom_scrapper
 import os
 import main
@@ -8,7 +7,7 @@ import main
 
 
 #Call webtooncom_scrapper.py to download the images for the given chapter
-#webtooncom_scrapper.main("https://www.webtoons.com/en/heartwarming/tata-the-cat/episode-1/viewer?title_no=5547&episode_no=1", "webtoon_images")
+webtooncom_scrapper.main("https://www.webtoons.com/en/heartwarming/tata-the-cat/episode-1/viewer?title_no=5547&episode_no=1", "webtoon_images")
 
 # Call ana2.py for each image in the folder
 for filename in os.listdir("webtoon_images"):
