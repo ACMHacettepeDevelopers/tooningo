@@ -37,6 +37,3 @@ npm install react-router-dom
 ?pip3 install Flask?  
 
 ## src/Config/firebase.ts => Update firebase informations before using
-
-## Next to work on: Connect src/Backend/main.py => Flask and src/Pages/translator.tsx => Axios
-## Create the rest API, update sendData function
