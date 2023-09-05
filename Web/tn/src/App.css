@@ -1,0 +1,110 @@
+.App {
+  text-align: center;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #00bf63;
+
+}
+
+.navbar {
+  width: 100%;
+  height: 80px;
+  background-color: #8c52ff;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.navbar .links {
+  text-align: center;
+  margin-right: 50px;
+}
+
+.links a {
+  color: white;
+  text-decoration: none;
+  border-bottom: 3px solid white;
+  padding-bottom: 2px;
+  margin: 15px;
+}
+
+.navbar .user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 50px;
+}
+
+.user p {
+  background-color: #00bf63; 
+  border-radius: 15px; 
+  padding: 10px; 
+  text-align: center;
+  color: #fff; 
+  font-size: 15px; 
+}
+.user img {
+  font-size: 20px;
+  border-radius: 20px;
+}
+
+.logo {
+  color: white;
+  margin: 15px;
+  margin-right: 1000px;
+  font-family: Arial, sans-serif; 
+  font-size: 30px; 
+  font-weight: bold;
+}
+
+.logo img {
+  width: 40px; 
+  height: auto; 
+  margin-right: 10px;   
+}
+
+.headings {
+  color: white;
+  font-size: 2cm;
+  padding-top: 2%;
+  text-align: center;
+}
+
+.paragraph {
+  color: black;
+  font-size: x-large;
+  margin-left: auto;
+  margin-right: auto;
+  width: 1000px;
+  margin-bottom: 4%;
+  padding-top: 2%;
+
+}
+
+.button {
+  background-color: #8c52ff;
+  color: #fff; 
+  border-radius: 20px; /* Oval kenarlar için yarı çap */
+  border-color: #1c6ca1;
+  text-align: center; 
+  font-size: 25px; 
+  cursor: pointer; 
+
+
+  &:hover {
+      background-color: #2980b9; /* Fare üzerine gelindiğinde arkaplan rengini değiştir */
+  }
+
+  &:active {
+      background-color: #1c6ca1; /* Buton tıklandığında arkaplan rengini değiştir */
+  }
+
+  /* Buton etiketi altındaki simge veya resim için */
+  .button-icon {
+      margin-right: 10px;
+  }
+}
