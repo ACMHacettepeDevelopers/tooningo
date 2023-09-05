@@ -20,13 +20,13 @@ If you are developing a production application, we recommend updating the config
 npm create vite@latest
 ## Used Packages (in case you need)
 
-npm install axios (REST API)
-npm install uuid (To generate random numbers for unique file names)
-npm install react-firebase-hooks
-npm install firebase
-npm install react-router-dom
+npm install axios (REST API)  
+npm install uuid (To generate random numbers for unique file names)  
+npm install react-firebase-hooks  
+npm install firebase  
+npm install react-router-dom  
 
-?pip3 install Flask?
+?pip3 install Flask?  
 
 ## src/Config/firebase.ts => Update firebase informations before using
 
