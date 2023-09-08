@@ -27,14 +27,11 @@ def url_getter():
     
 @app.route('/download')
 def indir_zip():
-    # İndirilecek klasörün adını ve yolunu belirtin
     klasor = 'tooningo/webtoon_images_translated'
     
-    # Klasörü geçici bir dizine kopyalayın ve zip dosyası oluşturun
     temp_dir = tempfile.mkdtemp()
     zip_dosya = shutil.make_archive(temp_dir + '/translated_webtoons', 'zip', klasor)
     
-    # Zip dosyasını indirme olarak gönderin
     return send_file(zip_dosya, as_attachment=True, download_name='translated_webtoons.zip')
 
 if __name__ == '__main__':
