@@ -1,6 +1,8 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 import os
 import webtooncom_scrapper
+import shutil
+import tempfile
 
 
 app = Flask(__name__)
@@ -18,10 +20,22 @@ def url_getter():
         #Maindeki son imwriter yerine Image ogesini dondurup, onu isleme sokabiliriz
         #Ustteki olmasa bile imwrite ile bastirilabilir
 
-        result = "Upload Completed URL: " + url
+        result = "Upload Completed, URL: " + url
         return jsonify({'result': result})
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+    
+@app.route('/download')
+def indir_zip():
+    # İndirilecek klasörün adını ve yolunu belirtin
+    klasor = 'tooningo/webtoon_images_translated'
+    
+    # Klasörü geçici bir dizine kopyalayın ve zip dosyası oluşturun
+    temp_dir = tempfile.mkdtemp()
+    zip_dosya = shutil.make_archive(temp_dir + '/translated_webtoons', 'zip', klasor)
+    
+    # Zip dosyasını indirme olarak gönderin
+    return send_file(zip_dosya, as_attachment=True, download_name='translated_webtoons.zip')
 
 if __name__ == '__main__':
     app.run(debug=True)
