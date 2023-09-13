@@ -24,8 +24,8 @@ export const Navbar = () => {
         <img src="./toon.jpg" alt="" />
         <Link to={"/"}> Home </Link>
         {user ? (
-          <Link to={"/translator"}> Translator </Link>
-        ) : (
+          <Link to={"/translatorv2"}> Translator </Link>
+          ) : (
           <Link to={"/login"}> Login </Link>
         )}
         <Link to={"/contact"}> Contact </Link>
