@@ -14,32 +14,41 @@ import BubbleBox  as bb
 # Initialize the translator
 translator = Translator()
 
+def isEmptyStr(string:str)->bool:
+    if string == "":
+        return True
 
-def translate_text(text, dest:str):
-    """Translate text from any language to Turkish"""
+    pattern = r'^[ \t\n]*$'
+    return re.match(pattern, string)
+
+
+
+def translate_text(text, dest:str) -> str:
+    """Translate text from any language to destination language"""
     text = text.replace('\n', ' ')
+    """
     if not text.strip():
         return ""
-    translated_text = translator.translate(text, src='auto', dest = dest).text
-    #translated_text = unidecode(translated_text)
+    """
 
-    return translated_text
+    if not isEmptyStr(text): 
+        translated_text = translator.translate(text, src='auto', dest = dest).text
+        return translated_text 
+    else: 
+        return ""
 
 
 def translate_GPT(text, dest:str):
     """Translate text from any language to Turkish using GPT-3.5"""
     text = text.replace('\n', ' ')
+    """
     if not text.strip():
         return ""
-    translated_text = gpt.translate(text, dest)
-    return translated_text
-
-
-def isEmpty(text:str) -> bool:
-    if text == "":
-        return True
-    pattern = r'^[\s\n\t]*$'
-    return re.match(pattern,text)
+    """
+    if not isEmptyStr(text): 
+        return gpt.translate(text, dest), 
+    else: 
+        return ""
 
 
 
@@ -189,6 +198,7 @@ def main(inputPath, outputPath, ifGPT):
         if ifGPT:
             bubbleBox.translated_text = translate_GPT(bubbleBox.text, "tr").capitalize()
         else:
+            print(bubbleBox.text)
             bubbleBox.translated_text =  translate_text(bubbleBox.text, "tr").capitalize()
 
     # Fill Speech Bubbles
